@@ -4,9 +4,9 @@ const Sum = ({ parts }) => {
   const total = parts.reduce((acc, curr) => curr.exercises + acc, 0)
 
   return (
-    <p><h2>
+    <p><h3>
         Total of {total} exercises
-        </h2>
+        </h3>
         </p>
   )
 }
