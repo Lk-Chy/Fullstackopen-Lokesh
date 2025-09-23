@@ -1,0 +1,16 @@
+// reverse a string
+const reverse = (string) => {
+  return string.split('').reverse().join('')
+}
+
+// average
+const average = (array) => {
+  if (array.length === 0) return 0
+  const reducer = (sum, item) => sum + item
+  return array.reduce(reducer, 0) / array.length
+}
+
+module.exports = {
+  reverse,
+  average
+}
