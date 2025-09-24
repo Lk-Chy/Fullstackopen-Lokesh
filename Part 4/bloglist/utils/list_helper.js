@@ -1,53 +1,20 @@
-const dummy = (blogs) => {
-  return 1;
-};
-
-const totalLikes = (blogs) => {
-  return blogs.reduce((sum, blog) => sum + blog.likes, 0);
-};
-
-const favoriteBlog = (blogs) => {
-  if (blogs.length === 0) return null;
-  return blogs.reduce((fav, blog) => (blog.likes > fav.likes ? blog : fav));
-};
-
+const dummy = (blogs) => 1
+const totalLikes = (blogs) => blogs.reduce((sum, blog) => sum + blog.likes, 0)
+const favoriteBlog = (blogs) => blogs.length === 0 ? null : blogs.reduce((prev, current) => prev.likes > current.likes ? prev : current)
 const mostBlogs = (blogs) => {
-  if (blogs.length === 0) return null;
-
-  const countByAuthor = {};
-  blogs.forEach((blog) => {
-    countByAuthor[blog.author] = (countByAuthor[blog.author] || 0) + 1;
-  });
-
-  const topAuthor = Object.entries(countByAuthor).reduce(
-    (max, [author, count]) =>
-      count > max.blogs ? { author, blogs: count } : max,
-    { author: null, blogs: 0 }
-  );
-
-  return topAuthor;
-};
-
+  if (blogs.length === 0) return null
+  const count = {}
+  blogs.forEach(blog => { count[blog.author] = (count[blog.author] || 0) + 1 })
+  let max = 0, author = ''
+  for (let key in count) { if (count[key] > max) { max = count[key]; author = key } }
+  return { author, blogs: max }
+}
 const mostLikes = (blogs) => {
-  if (blogs.length === 0) return null;
-
-  const likesByAuthor = {};
-  blogs.forEach((blog) => {
-    likesByAuthor[blog.author] = (likesByAuthor[blog.author] || 0) + blog.likes;
-  });
-
-  const topAuthor = Object.entries(likesByAuthor).reduce(
-    (max, [author, likes]) => (likes > max.likes ? { author, likes } : max),
-    { author: null, likes: 0 }
-  );
-
-  return topAuthor;
-};
-
-module.exports = {
-  dummy,
-  totalLikes,
-  favoriteBlog,
-  mostBlogs,
-  mostLikes,
-};
+  if (blogs.length === 0) return null
+  const count = {}
+  blogs.forEach(blog => { count[blog.author] = (count[blog.author] || 0) + blog.likes })
+  let max = 0, author = ''
+  for (let key in count) { if (count[key] > max) { max = count[key]; author = key } }
+  return { author, likes: max }
+}
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }

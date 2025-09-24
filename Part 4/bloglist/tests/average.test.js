@@ -1,17 +1,15 @@
-const { test, describe } = require('node:test')
-const assert = require('node:assert')
-const average = require('../utils/for_testing').average
+const { average } = require('../utils/for_testing')
 
 describe('average', () => {
   test('of one value is the value itself', () => {
-    assert.strictEqual(average([5]), 5)
+    expect(average([5])).toBe(5)
   })
 
   test('of multiple values is calculated correctly', () => {
-    assert.strictEqual(average([1, 2, 3, 4, 5, 6]), 3.5)
+    expect(average([1, 2, 3, 4, 5, 6])).toBe(3.5)
   })
 
   test('of empty array is zero', () => {
-    assert.strictEqual(average([]), 0)
+    expect(average([])).toBe(0)
   })
 })
