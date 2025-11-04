@@ -1,36 +1,39 @@
+import PropTypes from "prop-types";
+
 const Notification = ({ message, type }) => {
-    if (message === null) {
-      return null
-    }
-  
-    const notificationStyle = {
-      background: 'lightgrey',
-      fontSize: 20,
-      borderStyle: 'solid',
-      borderRadius: 5,
-      padding: 10,
-      marginBottom: 10,
-    }
-  
-    const successStyle = {
-      ...notificationStyle,
-      color: 'green',
-      borderColor: 'green',
-    }
-  
-    const errorStyle = {
-      ...notificationStyle,
-      color: 'red',
-      borderColor: 'red',
-    }
-  
-    const style = type === 'error' ? errorStyle : successStyle
-  
-    return (
-      <div style={style}>
-        {message}
-      </div>
-    )
+  if (message === null) {
+    return null;
   }
-  
-  export default Notification
+
+  const notificationStyle = {
+    background: "lightgrey",
+    fontSize: 20,
+    borderStyle: "solid",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  };
+
+  const successStyle = {
+    ...notificationStyle,
+    color: "green",
+    borderColor: "green",
+  };
+
+  const errorStyle = {
+    ...notificationStyle,
+    color: "red",
+    borderColor: "red",
+  };
+
+  const style = type === "error" ? errorStyle : successStyle;
+
+  return <div style={style}>{message}</div>;
+};
+
+Notification.propTypes = {
+  message: PropTypes.string,
+  type: PropTypes.string,
+};
+
+export default Notification;
