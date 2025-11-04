@@ -15,8 +15,8 @@ const AnecdoteList = () => {
     .sort((a, b) => b.votes - a.votes);
 
   const vote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote));
-    dispatch(showNotification(`you voted for ${anecdote.content}`, 5));
+    dispatch(voteAnecdote(anecdote.id));
+    dispatch(showNotification(`you voted '${anecdote.content}'`, 5));
   };
   return (
     <div>
