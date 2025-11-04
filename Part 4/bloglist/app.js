@@ -9,6 +9,8 @@ const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 
+
+
 const app = express();
 
 logger.info("connecting to", config.MONGODB_URI);
@@ -32,6 +34,13 @@ app.use((req, res, next) => {
 app.use("/api/blogs", blogRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/login", loginRoutes);
+
+
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/testing')
+  app.use('/api/testing', testingRouter)
+}
+
 
 app.use((req, res) => {
   res.status(404).send({ error: "unknown endpoint" });
