@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const config = require('../utils/config')
 
 const api = supertest(app)
 
@@ -20,7 +21,7 @@ beforeEach(async () => {
   userId = user._id.toString()
 
   const userForToken = { username: user.username, id: user._id }
-  token = jwt.sign(userForToken, process.env.JWT_SECRET)
+  token = jwt.sign(userForToken, config.SECRET)
 })
 
 describe('Blog creation with creator', () => {
@@ -67,7 +68,7 @@ describe('Blog deletion by creator', () => {
       passwordHash: await bcrypt.hash('password', 10)
     }).save()
 
-    const otherToken = jwt.sign({ username: newUser.username, id: newUser._id }, process.env.JWT_SECRET)
+    const otherToken = jwt.sign({ username: newUser.username, id: newUser._id }, config.SECRET)
 
     await api
       .delete(`/api/blogs/${blogRes.body.id}`)

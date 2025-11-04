@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const config = require('../utils/config')
 
 const api = supertest(app)
 
@@ -20,7 +21,7 @@ beforeEach(async () => {
   userId = user._id.toString()
 
   const userForToken = { username: user.username, id: user._id }
-  token = jwt.sign(userForToken, process.env.JWT_SECRET)
+  token = jwt.sign(userForToken, config.SECRET)
 
   const initialBlogs = [
     { title: 'First Blog', author: 'Tester', url: 'https://first.com', likes: 5, user: userId },

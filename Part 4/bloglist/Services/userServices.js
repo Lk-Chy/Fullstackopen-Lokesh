@@ -1,19 +1,31 @@
-const mongoose = require('mongoose')
+const bcrypt = require("bcrypt");
+const User = require("../models/user");
 
-const blogSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  author: String,
-  url: { type: String, required: true },
-  likes: { type: Number, default: 0 },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-})
+const getAllUsers = async () => {
+  return await User.find({}).populate("blogs", {
+    title: 1,
+    author: 1,
+    url: 1,
+    likes: 1,
+  });
+};
 
-blogSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
+const createUser = async ({ username, name, password }) => {
+  if (!password || password.length < 3) {
+    throw new Error("Password must be at least 3 characters long");
   }
-})
 
-module.exports = mongoose.model('Blog', blogSchema)
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(password, saltRounds);
+
+  const user = new User({
+    username,
+    name,
+    passwordHash,
+  });
+
+  const savedUser = await user.save();
+  return savedUser;
+};
+
+module.exports = { getAllUsers, createUser };

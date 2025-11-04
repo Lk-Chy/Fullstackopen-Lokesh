@@ -17,7 +17,7 @@ const deleteBlog = async (blogId, user) => {
   const blog = await Blog.findById(blogId)
   if (!blog) throw { status: 404, message: 'Blog not found' }
   if (blog.user.toString() !== user.id.toString()) throw { status: 401, message: 'Unauthorized' }
-  await Blog.findByIdAndRemove(blogId)
+  await Blog.findByIdAndDelete(blogId)
 }
 
 const updateBlog = async (blogId, blogData) => {

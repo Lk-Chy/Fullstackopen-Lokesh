@@ -1,25 +1,28 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/user')
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const config = require("../utils/config");
 
 const auth = async (req, res, next) => {
-  const authHeader = req.get('Authorization')
+  const authHeader = req.get("Authorization");
 
-  if (!authHeader || !authHeader.toLowerCase().startsWith('bearer ')) {
-    return res.status(401).json({ error: 'Token missing or invalid' })
+  if (!authHeader || !authHeader.toLowerCase().startsWith("bearer ")) {
+    return res.status(401).json({ error: "token missing or invalid" });
   }
 
-  const token = authHeader.substring(7)
+  const token = authHeader.substring(7);
+
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
+    const decodedToken = jwt.verify(token, config.SECRET);
+
     if (!decodedToken.id) {
-      return res.status(401).json({ error: 'Token invalid' })
+      return res.status(401).json({ error: "token invalid" });
     }
 
-    req.user = await User.findById(decodedToken.id)
-    next()
+    req.user = await User.findById(decodedToken.id);
+    next();
   } catch (error) {
-    return res.status(401).json({ error: 'Token invalid' })
+    next(error);
   }
-}
+};
 
-module.exports = auth
+module.exports = auth;
